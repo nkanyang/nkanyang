@@ -16,7 +16,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
 
     @Column(columnDefinition = "text", length = 128)

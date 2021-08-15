@@ -20,7 +20,7 @@ public class ProductController {
     @ResponseStatus(value = HttpStatus.OK)
     @ApiOperation(value = "Gets all products, returns an object contains a list of products.",
             notes = "If parameter 'name' is specified, finds all products matching the name.")
-    public ProductList getProducts(@RequestParam(required = false) String name){
+    public ProductList getProducts(@RequestParam(required = false) String name) {
         return productService.getProducts(name);
     }
 
@@ -28,7 +28,7 @@ public class ProductController {
     @ResponseStatus(value = HttpStatus.OK)
     @ApiOperation(value = "Gets the project that matches the specified ID",
             notes = "ID is a GUID")
-    public ProductResponseDto getProductById(@PathVariable UUID id){
+    public ProductResponseDto getProductById(@PathVariable UUID id) {
         return productService.getProductById(id);
     }
 
@@ -40,7 +40,7 @@ public class ProductController {
                     "Product Description:  A string no more than 1024 characters. Required.\n " +
                     "Price:  A decimal number larger than 0. Required.\n " +
                     "Delivery Price:  A decimal number larger than 0. Required.")
-    public ProductResponseDto addProduct(@Validated @RequestBody ProductRequestDto product){
+    public ProductResponseDto addProduct(@Validated @RequestBody ProductRequestDto product) {
         return productService.addProduct(product);
     }
 
@@ -52,28 +52,28 @@ public class ProductController {
                     "Product Description:  A string no more than 1024 characters. Required.\n " +
                     "Price:  A decimal number larger than 0. Required.\n " +
                     "Delivery Price:  A decimal number larger than 0. Required.")
-    public void updateProduct(@PathVariable UUID id, @Validated @RequestBody ProductRequestDto product ){
+    public void updateProduct(@PathVariable UUID id, @Validated @RequestBody ProductRequestDto product) {
         productService.updateProduct(id, product);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deletes a product and its options.")
-    public void deleteProduct(@PathVariable UUID id){
+    public void deleteProduct(@PathVariable UUID id) {
         productService.deleteProduct(id);
     }
 
     @GetMapping("{id}/options")
     @ResponseStatus(value = HttpStatus.OK)
     @ApiOperation(value = "Finds all options for a product specified by ID, returns an object contains a list of product options.")
-    public ProductOptionList getProductOptions(@PathVariable UUID id){
+    public ProductOptionList getProductOptions(@PathVariable UUID id) {
         return productService.getProductOptions(id);
     }
 
     @GetMapping("{id}/options/{optionId}")
     @ResponseStatus(value = HttpStatus.OK)
     @ApiOperation(value = "Finds the specified option for the specified product.")
-    public ProductOptionResponseDto getProductOptionById(@PathVariable UUID id, @PathVariable UUID optionId){
+    public ProductOptionResponseDto getProductOptionById(@PathVariable UUID id, @PathVariable UUID optionId) {
         return productService.getProductOptionById(id, optionId);
     }
 
@@ -84,7 +84,7 @@ public class ProductController {
                     "Option Name:  A string no more than 128 characters. Required.\n " +
                     "Option Description:  A string no more than 1024 characters. Required.")
     public ProductOptionResponseDto addProductOption(@PathVariable UUID id,
-                                               @Validated @RequestBody ProductOptionRequestDto option){
+                                                     @Validated @RequestBody ProductOptionRequestDto option) {
         return productService.addProductOption(id, option);
     }
 
@@ -96,7 +96,7 @@ public class ProductController {
                     "Option Description:  A string no more than 1024 characters. Required.")
     public void updateProductOption(@PathVariable UUID id,
                                     @PathVariable UUID optionId,
-                                    @Validated @RequestBody ProductOptionRequestDto option){
+                                    @Validated @RequestBody ProductOptionRequestDto option) {
         productService.updateProductOption(id, optionId, option);
     }
 
@@ -104,7 +104,7 @@ public class ProductController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Deletes the specified option of the specified product.")
     public void deleteProductOption(@PathVariable UUID id,
-                                    @PathVariable UUID optionId){
+                                    @PathVariable UUID optionId) {
         productService.deleteProductOption(id, optionId);
     }
 }

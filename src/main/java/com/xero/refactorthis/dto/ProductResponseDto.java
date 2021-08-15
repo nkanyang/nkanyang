@@ -7,18 +7,18 @@ import java.util.UUID;
 
 @Data
 public class ProductResponseDto {
-    @JsonProperty( value = "Id")
+    @JsonProperty(value = "Id")
     private UUID id;
 
-    @JsonProperty( value = "Name")
+    @JsonProperty(value = "Name")
     private String name;
 
-    @JsonProperty( value = "Description")
+    @JsonProperty(value = "Description")
     private String description;
 
-    @JsonProperty( value = "Price")
+    @JsonProperty(value = "Price")
     private float price;
 
-    @JsonProperty( value = "DeliveryPrice")
+    @JsonProperty(value = "DeliveryPrice")
     private float deliveryPrice;
 }

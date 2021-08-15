@@ -20,9 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -42,9 +43,9 @@ public class ProductServiceTest {
     private ProductOptionMapper productOptionMapper;
 
     @Nested
-    class ProductTest{
+    class ProductTest {
         @Test
-        public void getProducts_whenNoNameSpecified_thenOK(){
+        public void getProducts_whenNoNameSpecified_thenOK() {
             List<Product> productList = new ArrayList<>();
             productList.add(new Product());
             when(productMapper.toProductResponseDto(any(Product.class))).thenReturn(new ProductResponseDto());
@@ -56,8 +57,9 @@ public class ProductServiceTest {
             verify(productMapper, times(1)).toProductResponseDto(any(Product.class));
             verify(productRepository, times(1)).findAll();
         }
+
         @Test
-        public void getProducts_whenNameSpecified_thenOK(){
+        public void getProducts_whenNameSpecified_thenOK() {
             List<Product> productList = new ArrayList<>();
             productList.add(new Product());
             String name = "iphone";
@@ -73,7 +75,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductById_thenOK(){
+        public void getProductById_thenOK() {
             when(productMapper.toProductResponseDto(any(Product.class))).thenReturn(new ProductResponseDto());
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.of(new Product()));
 
@@ -84,7 +86,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductById_whenIdNotExist_thenThrowException(){
+        public void getProductById_whenIdNotExist_thenThrowException() {
             when(productMapper.toProductResponseDto(any(Product.class))).thenReturn(new ProductResponseDto());
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -95,7 +97,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void addProduct_thenOK(){
+        public void addProduct_thenOK() {
             when(productMapper.toProduct(any(ProductRequestDto.class))).thenReturn(new Product());
             when(productMapper.toProductResponseDto(any(Product.class))).thenReturn(new ProductResponseDto());
             when(productRepository.save(any(Product.class))).thenReturn(new Product());
@@ -106,8 +108,9 @@ public class ProductServiceTest {
             verify(productMapper, times(1)).toProductResponseDto(any(Product.class));
             verify(productRepository, times(1)).save(any(Product.class));
         }
+
         @Test
-        public void updateProduct_thenOK(){
+        public void updateProduct_thenOK() {
             when(productMapper.updateProductFromDto(any(Product.class), any(ProductRequestDto.class))).thenReturn(new Product());
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.of(new Product()));
             when(productRepository.save(any(Product.class))).thenReturn(new Product());
@@ -118,8 +121,9 @@ public class ProductServiceTest {
             verify(productRepository, times(1)).findById(any(UUID.class));
             verify(productRepository, times(1)).save(any(Product.class));
         }
+
         @Test
-        public void updateProduct_whenIdNotExist_thenThrowException(){
+        public void updateProduct_whenIdNotExist_thenThrowException() {
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> productService.updateProduct(UUID.randomUUID(), new ProductRequestDto()));
@@ -130,7 +134,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void deleteProduct_thenOK(){
+        public void deleteProduct_thenOK() {
             when(productRepository.existsById(any(UUID.class))).thenReturn(true);
             doNothing().when(productRepository).deleteById(any(UUID.class));
 
@@ -141,7 +145,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void deleteProduct_whenIdNotExist_thenThrowException(){
+        public void deleteProduct_whenIdNotExist_thenThrowException() {
             when(productRepository.existsById(any(UUID.class))).thenReturn(false);
 
             assertThrows(IdNotFoundException.class, () -> productService.deleteProduct(UUID.randomUUID()));
@@ -154,7 +158,7 @@ public class ProductServiceTest {
     @Nested
     class ProductOptionTest {
         @Test
-        public void getProductOptions_whenProductIdExist_thenOK(){
+        public void getProductOptions_whenProductIdExist_thenOK() {
             List<ProductOption> optionList = new ArrayList<>();
             optionList.add(new ProductOption());
             when(productRepository.existsById(any(UUID.class))).thenReturn(true);
@@ -168,8 +172,9 @@ public class ProductServiceTest {
             verify(productOptionMapper, times(1)).toProductOptionResponseDto(any(ProductOption.class));
             verify(productOptionRepository, times(1)).findByProductId(any(UUID.class));
         }
+
         @Test
-        public void getProductOptions_whenProductIdNotExist_thenThrowException(){
+        public void getProductOptions_whenProductIdNotExist_thenThrowException() {
             when(productRepository.existsById(any(UUID.class))).thenReturn(false);
 
             assertThrows(IdNotFoundException.class, () -> productService.getProductOptions(UUID.randomUUID()));
@@ -178,7 +183,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductOptionById_thenOK(){
+        public void getProductOptionById_thenOK() {
             ProductOption option = new ProductOption();
             UUID productId = UUID.randomUUID();
             Product product = new Product();
@@ -194,7 +199,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductOptionById_whenProductIdNotMatch_thenThrowException(){
+        public void getProductOptionById_whenProductIdNotMatch_thenThrowException() {
             ProductOption option = new ProductOption();
             Product product = new Product();
             product.setId(UUID.randomUUID());
@@ -207,7 +212,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductOptionById_whenProductIdNotFound_thenThrowException(){
+        public void getProductOptionById_whenProductIdNotFound_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.of(new ProductOption()));
 
             assertThrows(IdNotFoundException.class, () -> productService.getProductOptionById(UUID.randomUUID(), UUID.randomUUID()));
@@ -216,7 +221,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void getProductOptionById_whenOptionIdNotExist_thenThrowException(){
+        public void getProductOptionById_whenOptionIdNotExist_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> productService.getProductOptionById(UUID.randomUUID(), UUID.randomUUID()));
@@ -225,7 +230,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void addProductOption_whenProductIdNotExist_thenThrowException(){
+        public void addProductOption_whenProductIdNotExist_thenThrowException() {
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> productService.addProductOption(UUID.randomUUID(), new ProductOptionRequestDto()));
@@ -234,7 +239,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void addProductOption_thenOK(){
+        public void addProductOption_thenOK() {
             when(productRepository.findById(any(UUID.class))).thenReturn(Optional.of(new Product()));
             when(productOptionMapper.toProductOption(any(Product.class), any(ProductOptionRequestDto.class))).thenReturn(new ProductOption());
             when(productOptionRepository.save(any(ProductOption.class))).thenReturn(new ProductOption());
@@ -249,7 +254,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void updateProductOption_whenOptionIdNotExist_thenThrowException(){
+        public void updateProductOption_whenOptionIdNotExist_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> productService.updateProductOption(UUID.randomUUID(), UUID.randomUUID(), new ProductOptionRequestDto()));
@@ -258,7 +263,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void updateProductOption_whenProductIdNotExist_thenThrowException(){
+        public void updateProductOption_whenProductIdNotExist_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.of(new ProductOption()));
 
             assertThrows(IdNotFoundException.class, () -> productService.updateProductOption(UUID.randomUUID(), UUID.randomUUID(), new ProductOptionRequestDto()));
@@ -267,7 +272,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void updateProductOption_whenProductIdNotMatch_thenThrowException(){
+        public void updateProductOption_whenProductIdNotMatch_thenThrowException() {
             ProductOption option = new ProductOption();
             Product product = new Product();
             product.setId(UUID.randomUUID());
@@ -281,7 +286,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void updateProductOption_thenOK(){
+        public void updateProductOption_thenOK() {
             ProductOption option = new ProductOption();
             UUID productId = UUID.randomUUID();
             Product product = new Product();
@@ -299,7 +304,7 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void deleteProductOption_whenOptionIdNotExist_thenThrowException(){
+        public void deleteProductOption_whenOptionIdNotExist_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> productService.deleteProductOption(UUID.randomUUID(), UUID.randomUUID()));
@@ -308,15 +313,16 @@ public class ProductServiceTest {
         }
 
         @Test
-        public void deleteProductOption_whenProductIdNotExist_thenThrowException(){
+        public void deleteProductOption_whenProductIdNotExist_thenThrowException() {
             when(productOptionRepository.findById(any(UUID.class))).thenReturn(Optional.of(new ProductOption()));
 
             assertThrows(IdNotFoundException.class, () -> productService.deleteProductOption(UUID.randomUUID(), UUID.randomUUID()));
 
             verify(productOptionRepository, times(1)).findById(any(UUID.class));
         }
+
         @Test
-        public void deleteProductOption_whenProductIdNotMatch_thenThrowException(){
+        public void deleteProductOption_whenProductIdNotMatch_thenThrowException() {
             ProductOption option = new ProductOption();
             Product product = new Product();
             product.setId(UUID.randomUUID());
@@ -327,6 +333,7 @@ public class ProductServiceTest {
 
             verify(productOptionRepository, times(1)).findById(any(UUID.class));
         }
+
         @Test
         public void deleteProductOption_thenOK() {
             ProductOption option = new ProductOption();

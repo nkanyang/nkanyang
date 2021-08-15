@@ -7,12 +7,12 @@ import java.util.UUID;
 
 @Data
 public class ProductOptionResponseDto {
-    @JsonProperty( value = "Id")
+    @JsonProperty(value = "Id")
     private UUID id;
 
-    @JsonProperty( value = "Name")
+    @JsonProperty(value = "Name")
     private String name;
 
-    @JsonProperty( value = "Description")
+    @JsonProperty(value = "Description")
     private String description;
 }

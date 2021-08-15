@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 @Data
-public class IdNotMatchException extends RuntimeException{
+public class IdNotMatchException extends RuntimeException {
     public IdNotMatchException(UUID productId) {
         super("Product ID of option not match with given ID: " + productId + ".");
     }

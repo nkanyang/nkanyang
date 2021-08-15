@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 public class ProductOptionList {
-    @JsonProperty( value = "Items")
+    @JsonProperty(value = "Items")
     private List<ProductOptionResponseDto> list = new ArrayList<>();
 }

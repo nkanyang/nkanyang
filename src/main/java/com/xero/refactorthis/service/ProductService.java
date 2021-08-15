@@ -19,27 +19,22 @@ import java.util.UUID;
 
 @Service
 public class ProductService {
+    Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ProductOptionRepository productOptionRepository;
-
     @Autowired
     private ProductMapper productMapper;
-
     @Autowired
     private ProductOptionMapper productOptionMapper;
 
-    Logger logger = LoggerFactory.getLogger(ProductService.class);
-
     public ProductList getProducts(String productName) {
         ProductList list = new ProductList();
-        if(productName == null) {
+        if (productName == null) {
             productRepository.findAll()
                     .forEach(product -> list.getList().add(productMapper.toProductResponseDto(product)));
-        }
-        else {
+        } else {
             productRepository.findByNameLike("%" + productName + "%")
                     .forEach(product -> list.getList().add(productMapper.toProductResponseDto(product)));
         }
@@ -63,7 +58,7 @@ public class ProductService {
     }
 
     public void deleteProduct(UUID id) {
-        if(!productRepository.existsById(id)) {
+        if (!productRepository.existsById(id)) {
             logger.debug("ID: " + id + " of product not found.");
             throw new IdNotFoundException();
         }
@@ -71,7 +66,7 @@ public class ProductService {
     }
 
     public ProductOptionList getProductOptions(UUID id) {
-        if(!productRepository.existsById(id)) {
+        if (!productRepository.existsById(id)) {
             logger.debug("ID: " + id + " of product not found.");
             throw new IdNotFoundException();
         }
@@ -101,20 +96,20 @@ public class ProductService {
     }
 
     public void deleteProductOption(UUID productId, UUID optionId) {
-        ProductOption option = productOptionRepository.findById(optionId).orElseThrow(() -> new IdNotFoundException());
+        ProductOption option = productOptionRepository.findById(optionId).orElseThrow(IdNotFoundException::new);
         validateProduct(option.getProduct(), productId);
         productOptionRepository.deleteById(optionId);
     }
 
-    private void validateProduct(Product product, UUID givenId){
-        try{
-            if(product == null){
+    private void validateProduct(Product product, UUID givenId) {
+        try {
+            if (product == null) {
                 throw new IdNotFoundException(givenId, "product");
             }
-            if(!product.getId().equals(givenId)){
+            if (!product.getId().equals(givenId)) {
                 throw new IdNotMatchException(givenId);
             }
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             logger.debug(e.getMessage());
             throw e;
         }
