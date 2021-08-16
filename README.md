@@ -4,6 +4,7 @@
 - [Tech Stack](#Tech-Stack)
 - [Project Build, Test, Package and Run](#Project-Build-Test-Package-and-Run)
 - [API Documentation](#API-Documentation)
+- [Improvements in Refactoring](#Improvements-in-Refactoring)
 
 
 ## Problem Description
@@ -117,4 +118,26 @@ java -jar ./target/refactor-this-0.0.1-SNAPSHOT.jar
  **Swagger UI** is introduced to help users to have a better understanding of what the APIs can do. It can also used as a tool to test the APIs.
 
 The endpoint for Swagger is ```http://hostname:port/swagger-ui.html```
+
+## Improvements in Refactoring
+
+This is a Spring Boot project, refactored from the given Web API project which built in .NET,  and it improves as following:
+
+- Use JPA + Hibernate, which provides a database independent abstraction on top of SQL, to decouple the service and database implementation.
+
+- Introduce data transfer object (DTO) to hide unnecessary/sensitive data of entity/model from client, resulting in both loose coupling and optimized data transfer.
+
+- Add validation when receiving data from the client and specify the HTTP status code for each API response.
+
+- Use fine-grained, configurable logging framework.
+
+- Use configuration file instead of hard coding parameters(eg: database connect string).
+
+- Add customized exceptions to handle service errors
+
+- Add unit test with the coverage rate up to 100% (lines and methods) for main service class
+
+- Use Swagger annotations to add documentation of APIs in code and demonstrate via Swagger UI
+
+- Prepare the docker file for the service to run in docker
 
